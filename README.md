@@ -93,7 +93,7 @@ A Convolutional Neural Network (CNN) is implemented with:
 ![Class Distribution](figures/class_distribution.png)
 
  **Accuracy Curve**
-![Accuracy Graph](figures/Training_vs_Validation_Accuracy.png)
+![Accuracy Graph](figures/Training%20vs%20Validation%20Accuracy.png)
 
  **Confusion Matrix**
 ![Confusion Matrix](figures/confusion_matrix.png)
