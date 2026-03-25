@@ -133,6 +133,7 @@ model.save("skin_cancer_model.h5")
 ##  Project Structure
 
 ```
+
 skin-cancer-classification-cnn/
 │
 ├── dataset/   (not uploaded due to large size)
@@ -143,17 +144,14 @@ skin-cancer-classification-cnn/
 │
 ├── skin_cancer_cnn.ipynb
 └── README.md
-```
 
----
 
-##  Key Insights
+## Key Insights
 
 * Deep learning is effective for medical image classification
 * Dataset quality and balance significantly impact performance
 * Evaluation metrics beyond accuracy are essential
 
----
 
 ##  Conclusion
 
@@ -161,7 +159,6 @@ This project demonstrates the application of CNNs for skin cancer classification
 
 However, class imbalance remains a major limitation and highlights the need for more advanced techniques in real-world applications.
 
----
 
 ##  Author
 
