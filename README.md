@@ -1,96 +1,133 @@
+#  Skin Cancer Classification using Deep Learning (CNN)
 
-#  Skin Cancer Classification Using Deep Learning
+##  Overview
 
-##  Project Overview
+Skin cancer is one of the most critical health challenges worldwide, where early diagnosis significantly increases survival rates. This project presents a deep learning-based approach for automatic classification of skin lesion images using a Convolutional Neural Network (CNN).
 
-This project focuses on the classification of skin lesion images using a Convolutional Neural Network (CNN). The model is trained on the HAM10000 dataset to automatically identify different types of skin lesions.
-
-Deep learning techniques are applied to analyze medical images and assist in early detection of skin cancer.
+The model is trained on the HAM10000 dataset and demonstrates how deep learning can be applied to real-world medical image analysis.
 
 ---
 
-##  Objectives
+##  Problem Statement
 
-* Develop a CNN model for multi-class skin lesion classification
-* Perform data preprocessing and augmentation
-* Evaluate model performance using multiple metrics
-* Analyze the impact of class imbalance
+Manual diagnosis of skin cancer is time-consuming and requires expert dermatological knowledge. The objective of this project is to develop an automated system capable of classifying skin lesion images into multiple categories using deep learning techniques.
 
 ---
 
 ##  Dataset
 
-The dataset used is **HAM10000 (Human Against Machine with 10000 training images)**.
+The dataset used is **HAM10000 (Human Against Machine with 10000 training images)**, a benchmark dataset for skin lesion analysis.
 
-* Total images used: 3000 (sampled for faster training)
 * Number of classes: 7
-* Image format: JPG
-* Metadata includes lesion type and image ID
+* Total dataset size: ~10,000 images
+* Used subset: 3000 images (for efficient training)
+* Image type: Dermatoscopic images
 
-⚠️ The dataset is imbalanced, meaning some classes have significantly more samples than others.
+ **Key Challenge:**
+The dataset is highly imbalanced, with some classes having significantly more samples than others. This imbalance affects model performance.
 
 ---
 
-##  Technologies Used
+##  Tech Stack
 
 * Python
 * TensorFlow / Keras
-* NumPy, Pandas
-* Matplotlib, Seaborn
+* NumPy & Pandas
+* Matplotlib & Seaborn
 * Scikit-learn
 
 ---
 
-##  Workflow
+##  Project Workflow
 
-1. Data Loading and Preprocessing
-2. Image Path Creation
-3. Data Cleaning (removing missing images)
-4. Data Visualization
-5. Label Encoding
-6. Train-Test Split
-7. Data Augmentation
-8. CNN Model Building
-9. Model Training
-10. Model Evaluation
+### 1. Data Preprocessing
+
+* Loaded metadata file
+* Generated image file paths
+* Removed missing or invalid images
+* Encoded categorical labels into numerical format
 
 ---
 
-##  Model Architecture
+### 2. Exploratory Data Analysis
 
-The CNN model consists of:
+* Visualized class distribution
+* Displayed sample images
 
-* Convolutional layers (feature extraction)
-* MaxPooling layers (dimensionality reduction)
-* Dense layers (classification)
-* Dropout layer (prevent overfitting)
-* Softmax output layer (multi-class classification)
+ **Class Distribution**
+![Class Distribution](figures/class_distribution.png)
+
+---
+
+### 3. Data Splitting
+
+* Training set: 80%
+* Testing set: 20%
+* Stratified sampling used to preserve class distribution
+
+---
+
+### 4. Data Augmentation
+
+To improve generalization, the following transformations were applied:
+
+* Rotation
+* Zooming
+* Horizontal flipping
+* Normalization (rescaling pixel values)
+
+---
+
+### 5. Model Architecture
+
+A custom Convolutional Neural Network (CNN) was designed with:
+
+* Convolutional layers for feature extraction
+* MaxPooling layers for dimensionality reduction
+* Fully connected dense layers
+* Dropout layer to reduce overfitting
+* Softmax output layer for multi-class classification
+
+---
+
+##  Model Training
+
+* Optimizer: Adam
+* Loss Function: Categorical Crossentropy
+* Epochs: 5
+* Batch Size: 32
+* Early stopping applied to prevent overfitting
 
 ---
 
 ##  Results
 
-* Training Accuracy ≈ 68%
-* Validation Accuracy ≈ 68%
-* Test Accuracy ≈ **69%**
+| Metric              | Value    |
+| ------------------- | -------- |
+| Training Accuracy   | ~68%     |
+| Validation Accuracy | ~68%     |
+| Test Accuracy       | **~69%** |
 
-The model demonstrates stable learning and good generalization performance.
+ **Accuracy Curve**
+![Accuracy Graph](figures/accuracy_plot.png)
 
 ---
 
-## 📊 Visualizations
+##  Model Evaluation
 
-### 🔹 Class Distribution
+###  Confusion Matrix
 
-![Class Distribution](figures/class_distribution.png)
-
-### 🔹 Accuracy Curve
-
-![Accuracy Graph](figures/accuracy_plot.png)
-
-### 🔹 Confusion Matrix
+The confusion matrix shows classification performance across all classes.
 
 ![Confusion Matrix](figures/confusion_matrix.png)
+
+---
+
+###  Classification Report
+
+* Strong performance on majority class
+* Poor performance on minority classes
+* Indicates model bias due to class imbalance
 
 ---
 
@@ -98,25 +135,25 @@ The model demonstrates stable learning and good generalization performance.
 
 ### Class Imbalance
 
-The dataset contains uneven distribution across classes, causing the model to perform better on dominant classes and poorly on minority classes.
+The dataset contains uneven distribution across classes, leading to:
 
-This is reflected in the classification report, where some classes have low precision and recall.
+* High accuracy but poor minority class performance
+* Bias toward dominant classes
+* Low precision/recall for underrepresented classes
 
 ---
 
-## 🚀 Future Improvements
+##  Future Improvements
 
-* Use transfer learning (ResNet, EfficientNet)
+* Implement transfer learning (ResNet, EfficientNet)
 * Apply class weighting or oversampling
-* Increase dataset size
-* Hyperparameter tuning
-* Advanced augmentation techniques
+* Use full dataset instead of subset
+* Tune hyperparameters
+* Experiment with deeper architectures
 
 ---
 
 ##  Model Saving
-
-The trained model can be saved using:
 
 ```python
 model.save("skin_cancer_model.h5")
@@ -124,32 +161,41 @@ model.save("skin_cancer_model.h5")
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
-skin_cancer_project/
+skin-cancer-classification-cnn/
 │
 ├── dataset/
 │   ├── HAM10000_images_part_1/
 │   ├── HAM10000_images_part_2/
 │   └── HAM10000_metadata.csv
 │
-├── skin_cancer_cnn.ipynb
 ├── figures/
 │   ├── class_distribution.png
 │   ├── accuracy_plot.png
 │   └── confusion_matrix.png
 │
+├── skin_cancer_cnn.ipynb
 └── README.md
 ```
 
 ---
 
+##  Key Insights
+
+* CNN models can effectively extract visual features from medical images
+* Model performance is heavily influenced by dataset balance
+* Accuracy alone is not sufficient; class-wise metrics are essential
+* Real-world datasets introduce challenges not seen in ideal conditions
+
+---
+
 ##  Conclusion
 
-A CNN-based deep learning model was successfully developed for skin lesion classification. The model achieved approximately 69% accuracy, demonstrating the potential of deep learning in medical image analysis.
+This project demonstrates the application of deep learning for skin cancer classification. The model achieved approximately 69% accuracy, showing promising results for automated medical image analysis.
 
-However, class imbalance remains a major challenge and needs to be addressed for improved performance.
+However, the presence of class imbalance highlights the importance of advanced techniques to improve performance across all categories.
 
 ---
 
