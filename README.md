@@ -141,12 +141,15 @@ model.save("skin_cancer_model.h5")
 ##  Project Structure
 
 ```
-skin-cancer-classification-cnn/
+skin-lesion-classification-deep-learning/
+│
+├── project/
+│   └── Ml project report.pdf
 │
 ├── dataset/   (not uploaded due to large size)
 ├── figures/
 │   ├── class_distribution.png
-│   ├── accuracy_plot.png
+│   ├── Validation Accuracy.png
 │   └── confusion_matrix.png
 │
 ├── skin_cancer_cnn.ipynb
