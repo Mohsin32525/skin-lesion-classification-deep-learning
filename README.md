@@ -6,13 +6,11 @@ Skin cancer is one of the most common and potentially life-threatening diseases 
 
 The model is trained on the HAM10000 dataset and demonstrates how deep learning can assist in medical image diagnosis.
 
----
 
 ##  Problem Statement
 
 The goal of this project is to classify dermatoscopic images of skin lesions into multiple categories using deep learning techniques. This is a multi-class classification problem with significant class imbalance.
 
----
 
 ##  Dataset: Skin Cancer MNIST – HAM10000
 
@@ -67,7 +65,6 @@ The goal of this project is to classify dermatoscopic images of skin lesions int
 9. Model Training
 10. Model Evaluation
 
----
 
 ## 🧠 Model Architecture
 
@@ -98,7 +95,6 @@ A Convolutional Neural Network (CNN) is implemented with:
  **Confusion Matrix**
 ![Confusion Matrix](figures/confusion_matrix.png)
 
----
 
 ## 📊 Evaluation
 
@@ -118,7 +114,6 @@ The dataset is highly imbalanced, causing:
 * Low recall and precision for minority classes
 * Misleading overall accuracy
 
----
 
 ##  Future Improvements
 
@@ -134,9 +129,6 @@ The dataset is highly imbalanced, causing:
 
 ```python
 model.save("skin_cancer_model.h5")
-```
-
----
 
 ##  Project Structure
 
