@@ -2,29 +2,45 @@
 
 ##  Overview
 
-Skin cancer is one of the most critical health challenges worldwide, where early diagnosis significantly increases survival rates. This project presents a deep learning-based approach for automatic classification of skin lesion images using a Convolutional Neural Network (CNN).
+Skin cancer is one of the most common and potentially life-threatening diseases worldwide. Early detection plays a crucial role in improving survival rates. This project presents a deep learning-based approach for automatic classification of skin lesion images using a Convolutional Neural Network (CNN).
 
-The model is trained on the HAM10000 dataset and demonstrates how deep learning can be applied to real-world medical image analysis.
+The model is trained on the HAM10000 dataset and demonstrates how deep learning can assist in medical image diagnosis.
 
 ---
 
 ##  Problem Statement
 
-Manual diagnosis of skin cancer is time-consuming and requires expert dermatological knowledge. The objective of this project is to develop an automated system capable of classifying skin lesion images into multiple categories using deep learning techniques.
+The goal of this project is to classify dermatoscopic images of skin lesions into multiple categories using deep learning techniques. This is a multi-class classification problem with significant class imbalance.
 
 ---
 
-##  Dataset
+##  Dataset: Skin Cancer MNIST – HAM10000
 
-The dataset used is **HAM10000 (Human Against Machine with 10000 training images)**, a benchmark dataset for skin lesion analysis.
+* **Domain:** Medical Imaging
+* **Total Images:** 10,015
+* **Number of Classes:** 7
+* **Task:** Multi-class classification
 
-* Number of classes: 7
-* Total dataset size: ~10,000 images
-* Used subset: 3000 images (for efficient training)
-* Image type: Dermatoscopic images
+###  Classes Include:
 
- **Key Challenge:**
-The dataset is highly imbalanced, with some classes having significantly more samples than others. This imbalance affects model performance.
+* Melanoma
+* Melanocytic nevi
+* Basal cell carcinoma
+* Actinic keratoses
+* Benign keratosis
+* Dermatofibroma
+* Vascular lesions
+
+###  Key Challenges:
+
+* Severe **class imbalance** (dominant class: melanocytic nevi)
+* Requires **image preprocessing and augmentation**
+* Real-world medical dataset complexity
+
+### 🔗 Dataset Links:
+
+*  Research Paper: https://arxiv.org/abs/1803.10417
+*  Kaggle Dataset: https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000
 
 ---
 
@@ -32,75 +48,40 @@ The dataset is highly imbalanced, with some classes having significantly more sa
 
 * Python
 * TensorFlow / Keras
-* NumPy & Pandas
-* Matplotlib & Seaborn
+* NumPy, Pandas
+* Matplotlib, Seaborn
 * Scikit-learn
 
 ---
 
 ##  Project Workflow
 
-### 1. Data Preprocessing
-
-* Loaded metadata file
-* Generated image file paths
-* Removed missing or invalid images
-* Encoded categorical labels into numerical format
-
----
-
-### 2. Exploratory Data Analysis
-
-* Visualized class distribution
-* Displayed sample images
-
- **Class Distribution**
-![Class Distribution](figures/class_distribution.png)
+1. Data Loading and Preprocessing
+2. Image Path Generation
+3. Data Cleaning (removal of missing images)
+4. Exploratory Data Analysis
+5. Label Encoding
+6. Train-Test Split (Stratified)
+7. Data Augmentation
+8. CNN Model Development
+9. Model Training
+10. Model Evaluation
 
 ---
 
-### 3. Data Splitting
+##  Model Architecture
 
-* Training set: 80%
-* Testing set: 20%
-* Stratified sampling used to preserve class distribution
-
----
-
-### 4. Data Augmentation
-
-To improve generalization, the following transformations were applied:
-
-* Rotation
-* Zooming
-* Horizontal flipping
-* Normalization (rescaling pixel values)
-
----
-
-### 5. Model Architecture
-
-A custom Convolutional Neural Network (CNN) was designed with:
+A Convolutional Neural Network (CNN) is implemented with:
 
 * Convolutional layers for feature extraction
-* MaxPooling layers for dimensionality reduction
-* Fully connected dense layers
-* Dropout layer to reduce overfitting
+* MaxPooling layers for spatial reduction
+* Fully connected layers for classification
+* Dropout layer to prevent overfitting
 * Softmax output layer for multi-class classification
 
 ---
 
-##  Model Training
-
-* Optimizer: Adam
-* Loss Function: Categorical Crossentropy
-* Epochs: 5
-* Batch Size: 32
-* Early stopping applied to prevent overfitting
-
----
-
-##  Results
+## 📈 Results
 
 | Metric              | Value    |
 | ------------------- | -------- |
@@ -108,26 +89,22 @@ A custom Convolutional Neural Network (CNN) was designed with:
 | Validation Accuracy | ~68%     |
 | Test Accuracy       | **~69%** |
 
+ **Class Distribution**
+![Class Distribution](figures/class_distribution.png)
+
  **Accuracy Curve**
 ![Accuracy Graph](figures/accuracy_plot.png)
 
----
-
-##  Model Evaluation
-
-###  Confusion Matrix
-
-The confusion matrix shows classification performance across all classes.
-
+ **Confusion Matrix**
 ![Confusion Matrix](figures/confusion_matrix.png)
 
 ---
 
-###  Classification Report
+##  Evaluation
 
-* Strong performance on majority class
-* Poor performance on minority classes
-* Indicates model bias due to class imbalance
+* The model performs well on majority classes
+* Poor performance observed on minority classes
+* Indicates bias due to class imbalance
 
 ---
 
@@ -135,21 +112,21 @@ The confusion matrix shows classification performance across all classes.
 
 ### Class Imbalance
 
-The dataset contains uneven distribution across classes, leading to:
+The dataset is highly imbalanced, causing:
 
-* High accuracy but poor minority class performance
 * Bias toward dominant classes
-* Low precision/recall for underrepresented classes
+* Low recall and precision for minority classes
+* Misleading overall accuracy
 
 ---
 
 ##  Future Improvements
 
-* Implement transfer learning (ResNet, EfficientNet)
-* Apply class weighting or oversampling
-* Use full dataset instead of subset
-* Tune hyperparameters
-* Experiment with deeper architectures
+* Apply **transfer learning** (ResNet, EfficientNet)
+* Use **class weighting / oversampling**
+* Train on full dataset
+* Hyperparameter tuning
+* Advanced augmentation techniques
 
 ---
 
@@ -166,11 +143,7 @@ model.save("skin_cancer_model.h5")
 ```
 skin-cancer-classification-cnn/
 │
-├── dataset/
-│   ├── HAM10000_images_part_1/
-│   ├── HAM10000_images_part_2/
-│   └── HAM10000_metadata.csv
-│
+├── dataset/   (not uploaded due to large size)
 ├── figures/
 │   ├── class_distribution.png
 │   ├── accuracy_plot.png
@@ -184,18 +157,17 @@ skin-cancer-classification-cnn/
 
 ##  Key Insights
 
-* CNN models can effectively extract visual features from medical images
-* Model performance is heavily influenced by dataset balance
-* Accuracy alone is not sufficient; class-wise metrics are essential
-* Real-world datasets introduce challenges not seen in ideal conditions
+* Deep learning is effective for medical image classification
+* Dataset quality and balance significantly impact performance
+* Evaluation metrics beyond accuracy are essential
 
 ---
 
-##  Conclusion
+## 🏁 Conclusion
 
-This project demonstrates the application of deep learning for skin cancer classification. The model achieved approximately 69% accuracy, showing promising results for automated medical image analysis.
+This project demonstrates the application of CNNs for skin cancer classification using the HAM10000 dataset. The model achieved approximately 69% accuracy, showing promising results.
 
-However, the presence of class imbalance highlights the importance of advanced techniques to improve performance across all categories.
+However, class imbalance remains a major limitation and highlights the need for more advanced techniques in real-world applications.
 
 ---
 
