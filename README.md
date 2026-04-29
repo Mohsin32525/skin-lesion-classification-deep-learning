@@ -132,3 +132,36 @@ This controlled training setup ensures stable learning and better generalization
 ---
 
 ## Project Structure
+
+
+skin-lesion-classification/
+│
+├── notebook.ipynb
+├── report.pdf
+├── README.md
+├── figures/
+│ ├── original_distribution.png
+│ ├── balanced_distribution.png
+│ ├── confusion_matrix.png
+│ └── classification_metrics.png
+
+
+
+
+
+
+
+---
+
+## Future Work
+
+- Apply focal loss for improved imbalance handling  
+- Explore EfficientNet for better feature representation  
+- Optimize classification thresholds for critical classes  
+- Perform cross-validation for robust evaluation  
+
+---
+
+## Author
+
+Mohsin
