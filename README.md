@@ -4,13 +4,13 @@
 
 Skin cancer is one of the most common and potentially life-threatening diseases worldwide. Early detection plays a crucial role in improving patient survival rates.
 
-This project presents an advanced deep learning pipeline for automatic classification of dermatoscopic images using the HAM10000 dataset. The work focuses on addressing class imbalance, improving model design, and applying rigorous evaluation techniques.
+This project presents an advanced deep learning pipeline for automatic classification of dermatoscopic images using the HAM10000 dataset. The focus of this work is not only on model accuracy but also on handling class imbalance, improving model design, and applying rigorous evaluation techniques suitable for medical applications.
 
 ---
 
 ## Problem Statement
 
-The objective is to classify skin lesion images into seven categories using deep learning. This is a multi-class classification problem with significant class imbalance, making evaluation and model design challenging.
+The objective of this project is to classify dermatoscopic images into seven diagnostic categories using deep learning. This is a multi-class classification problem with significant class imbalance, where certain classes dominate the dataset and bias model predictions.
 
 ---
 
@@ -30,66 +30,78 @@ The objective is to classify skin lesion images into seven categories using deep
 - Dermatofibroma (df)  
 - Vascular lesions (vasc)  
 
-### Key Challenge:
+### Key Challenge
 
-- Severe class imbalance (nv dominates dataset)
+The dataset is highly imbalanced, with the *melanocytic nevi (nv)* class dominating more than 65% of the samples. This imbalance can lead to biased learning and poor performance on minority classes.
 
 ---
+
 ## Dataset Links
 
 - Research Paper: https://arxiv.org/abs/1803.10417  
 - Kaggle Dataset: https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000  
 
-Note: The dataset is not included in this repository due to size limitations. Please download it from the above link.
-
-## Tech Stack
-
-- Python  
-- TensorFlow / Keras  
-- NumPy, Pandas  
-- Matplotlib, Seaborn  
-- Scikit-learn  
-
 ---
 
 ## Methodology
 
-### Baseline Limitation
+### Handling Class Imbalance
 
-A basic CNN model initially achieved ~68–69% accuracy but failed to detect minority classes, leading to majority class bias.
+#### Original Distribution (Before Balancing)
+![Original Distribution](figures/original_distribution.png)
 
----
+#### Distribution After Strategic Balancing
+![Balanced Distribution](figures/balanced_distribution.png)
 
-### Improved Approach
-
-To address these issues, the pipeline was redesigned:
-
-- Applied **class imbalance handling**:
-  - Class weighting
-  - Data augmentation
-  - Strategic undersampling
-
-- Used **Transfer Learning (MobileNetV2)** for better feature extraction
-
-- Implemented **two-phase training**:
-  1. Feature extraction (frozen base model)
-  2. Fine-tuning (unfrozen model with low learning rate)
-
-- Applied **EarlyStopping and learning rate control**
+The original dataset is highly skewed toward the *nv* class. To address this issue, strategic undersampling was applied to reduce the dominance of the majority class while preserving all minority classes. This ensures that the model learns meaningful features across all categories instead of focusing only on the dominant class.
 
 ---
 
-## Model Architecture
+### Model Approach
 
-- MobileNetV2 (pre-trained on ImageNet)
-- Global Average Pooling
-- Dense layer (ReLU)
-- Dropout (0.5)
-- Softmax output layer (7 classes)
+To improve performance beyond a basic CNN, a transfer learning approach was adopted:
+
+- **MobileNetV2** pre-trained on ImageNet used as feature extractor  
+- **Global Average Pooling** for dimensionality reduction  
+- **Dense + Dropout layers** for classification  
+- **Softmax output layer** for multi-class prediction  
+
+---
+
+### Training Strategy
+
+A two-phase training approach was implemented:
+
+1. **Feature Extraction Phase**
+   - Base model frozen  
+   - Learning rate = 1e-3  
+
+2. **Fine-Tuning Phase**
+   - Base model unfrozen  
+   - Learning rate = 1e-5  
+   - EarlyStopping applied to prevent overfitting  
+
+Additional techniques:
+
+- Class weighting to handle imbalance  
+- Data augmentation (rotation, flipping, shifting)  
+- Learning rate scheduling  
+
+This controlled training setup ensures stable learning and better generalization.
 
 ---
 
 ## Results
+
+### Confusion Matrix
+![Confusion Matrix](figures/confusion_matrix.png)
+
+### Classification Metrics (Precision, Recall, F1-score)
+![Metrics](figures/classification_metrics.png)
+
+---
+
+## Performance
 
 | Metric            | Value |
 |------------------|------|
@@ -99,23 +111,14 @@ To address these issues, the pipeline was redesigned:
 
 ---
 
-## Key Results
-
-### Confusion Matrix
-![Confusion Matrix](figures/confusion_matrix.png)
-
-### Classification Metrics
-![Metrics](figures/classification_metrics.png)
-
----
-
 ## Key Observations
 
-- Model successfully predicts **all classes** (no collapse)
+- The model successfully predicts **all classes** (no majority class collapse)
 - High recall achieved for minority classes:
   - vasc: 0.81  
   - df: 0.59  
-- Performance is now **balanced across classes**
+- Balanced performance across all categories  
+- Accuracy is lower than baseline but **more meaningful and reliable**
 
 ---
 
@@ -123,34 +126,9 @@ To address these issues, the pipeline was redesigned:
 
 - Accuracy alone is misleading for imbalanced datasets  
 - Macro-F1 and recall provide a more realistic evaluation  
-- Transfer learning significantly improves performance  
+- Transfer learning significantly improves feature extraction  
 - Proper handling of imbalance is critical in medical applications  
 
 ---
 
 ## Project Structure
-
-skin-lesion-classification/
-│
-├── notebook.ipynb
-├── report.pdf
-├── figures/
-│ ├── class_distribution.png
-│ ├── confusion_matrix.png
-│ └── classification_metrics.png
-
-
----
-
-## Future Work
-
-- Apply focal loss for better imbalance handling  
-- Explore EfficientNet for improved feature representation  
-- Optimize classification thresholds for critical classes  
-- Perform cross-validation for more robust evaluation  
-
----
-
-## Author
-
-Mohsin
