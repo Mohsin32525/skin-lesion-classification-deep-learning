@@ -35,6 +35,12 @@ The objective is to classify skin lesion images into seven categories using deep
 - Severe class imbalance (nv dominates dataset)
 
 ---
+## Dataset Links
+
+- Research Paper: https://arxiv.org/abs/1803.10417  
+- Kaggle Dataset: https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000  
+
+Note: The dataset is not included in this repository due to size limitations. Please download it from the above link.
 
 ## Tech Stack
 
