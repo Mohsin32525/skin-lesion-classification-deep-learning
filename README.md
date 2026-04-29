@@ -1,189 +1,150 @@
-#  Skin Cancer Classification using Deep Learning (CNN)
+# Skin Lesion Classification Using Advanced Deep Learning
 
-##  Overview
+## Overview
 
-Skin cancer is one of the most common and potentially life-threatening diseases worldwide. Early detection plays a crucial role in improving survival rates. This project presents a deep learning-based approach for automatic classification of skin lesion images using a Convolutional Neural Network (CNN).
+Skin cancer is one of the most common and potentially life-threatening diseases worldwide. Early detection plays a crucial role in improving patient survival rates.
 
-The model is trained on the HAM10000 dataset and demonstrates how deep learning can assist in medical image diagnosis.
-
----
-
-##  Problem Statement
-
-The goal of this project is to classify dermatoscopic images of skin lesions into multiple categories using deep learning techniques. This is a multi-class classification problem with significant class imbalance.
+This project presents an advanced deep learning pipeline for automatic classification of dermatoscopic images using the HAM10000 dataset. The work focuses on addressing class imbalance, improving model design, and applying rigorous evaluation techniques.
 
 ---
 
-##  Dataset: Skin Cancer MNIST – HAM10000
+## Problem Statement
 
-* **Domain:** Medical Imaging
-* **Total Images:** 10,015
-* **Number of Classes:** 7
-* **Task:** Multi-class classification
-
-###  Classes Include:
-
-* Melanoma
-* Melanocytic nevi
-* Basal cell carcinoma
-* Actinic keratoses
-* Benign keratosis
-* Dermatofibroma
-* Vascular lesions
-
-###  Key Challenges:
-
-* Severe **class imbalance** (dominant class: melanocytic nevi)
-* Requires **image preprocessing and augmentation**
-* Real-world medical dataset complexity
-
-### 🔗 Dataset Links:
-
-*  Research Paper: https://arxiv.org/abs/1803.10417
-*  Kaggle Dataset: https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000
+The objective is to classify skin lesion images into seven categories using deep learning. This is a multi-class classification problem with significant class imbalance, making evaluation and model design challenging.
 
 ---
 
-##  Tech Stack
+## Dataset: HAM10000
 
-* Python
-* TensorFlow / Keras
-* NumPy, Pandas
-* Matplotlib, Seaborn
-* Scikit-learn
+- Total Images: 10,015  
+- Number of Classes: 7  
+- Domain: Medical Imaging  
 
----
+### Classes:
 
-##  Project Workflow
+- Melanoma (mel)  
+- Melanocytic nevi (nv)  
+- Basal cell carcinoma (bcc)  
+- Actinic keratoses (akiec)  
+- Benign keratosis (bkl)  
+- Dermatofibroma (df)  
+- Vascular lesions (vasc)  
 
-1. Data Loading and Preprocessing
-2. Image Path Generation
-3. Data Cleaning (removal of missing images)
-4. Exploratory Data Analysis
-5. Label Encoding
-6. Train-Test Split (Stratified)
-7. Data Augmentation
-8. CNN Model Development
-9. Model Training
-10. Model Evaluation
+### Key Challenge:
+
+- Severe class imbalance (nv dominates dataset)
 
 ---
 
-##  Model Architecture
+## Tech Stack
 
-A Convolutional Neural Network (CNN) is implemented with:
-
-* Convolutional layers for feature extraction
-* MaxPooling layers for spatial reduction
-* Fully connected layers for classification
-* Dropout layer to prevent overfitting
-* Softmax output layer for multi-class classification
+- Python  
+- TensorFlow / Keras  
+- NumPy, Pandas  
+- Matplotlib, Seaborn  
+- Scikit-learn  
 
 ---
 
-## 📈 Results
+## Methodology
 
-| Metric              | Value    |
-| ------------------- | -------- |
-| Training Accuracy   | ~68%     |
-| Validation Accuracy | ~68%     |
-| Test Accuracy       | **~69%** |
+### Baseline Limitation
 
- **Class Distribution**
+A basic CNN model initially achieved ~68–69% accuracy but failed to detect minority classes, leading to majority class bias.
 
- 
-![Class Distribution](figures/class_distribution.png)
+---
 
+### Improved Approach
 
- **Accuracy Curve**
-![Accuracy Graph](figures/Training%20vs%20Validation%20Accuracy.png)
+To address these issues, the pipeline was redesigned:
 
+- Applied **class imbalance handling**:
+  - Class weighting
+  - Data augmentation
+  - Strategic undersampling
 
- 
- 
- **Confusion Matrix**
- 
+- Used **Transfer Learning (MobileNetV2)** for better feature extraction
+
+- Implemented **two-phase training**:
+  1. Feature extraction (frozen base model)
+  2. Fine-tuning (unfrozen model with low learning rate)
+
+- Applied **EarlyStopping and learning rate control**
+
+---
+
+## Model Architecture
+
+- MobileNetV2 (pre-trained on ImageNet)
+- Global Average Pooling
+- Dense layer (ReLU)
+- Dropout (0.5)
+- Softmax output layer (7 classes)
+
+---
+
+## Results
+
+| Metric            | Value |
+|------------------|------|
+| Accuracy         | ~57% |
+| Macro Recall     | ~0.52 |
+| Macro F1-score   | ~0.43 |
+
+---
+
+## Key Results
+
+### Confusion Matrix
 ![Confusion Matrix](figures/confusion_matrix.png)
 
----
-
-##  Evaluation
-
-* The model performs well on majority classes
-* Poor performance observed on minority classes
-* Indicates bias due to class imbalance
+### Classification Metrics
+![Metrics](figures/classification_metrics.png)
 
 ---
 
-##  Challenges
+## Key Observations
 
-### Class Imbalance
-
-The dataset is highly imbalanced, causing:
-
-* Bias toward dominant classes
-* Low recall and precision for minority classes
-* Misleading overall accuracy
+- Model successfully predicts **all classes** (no collapse)
+- High recall achieved for minority classes:
+  - vasc: 0.81  
+  - df: 0.59  
+- Performance is now **balanced across classes**
 
 ---
 
-##  Future Improvements
+## Key Insights
 
-* Apply **transfer learning** (ResNet, EfficientNet)
-* Use **class weighting / oversampling**
-* Train on full dataset
-* Hyperparameter tuning
-* Advanced augmentation techniques
-
----
-
-##  Model Saving
-
-```python
-model.save("skin_cancer_model.h5")
-```
+- Accuracy alone is misleading for imbalanced datasets  
+- Macro-F1 and recall provide a more realistic evaluation  
+- Transfer learning significantly improves performance  
+- Proper handling of imbalance is critical in medical applications  
 
 ---
 
-##  Project Structure
+## Project Structure
 
-```
-skin-lesion-classification-deep-learning/
+skin-lesion-classification/
 │
-├── project/
-│   └── Ml project report.pdf
-│
-├── dataset/   (not uploaded due to large size)
+├── notebook.ipynb
+├── report.pdf
 ├── figures/
-│   ├── class_distribution.png
-│   ├── Validation Accuracy.png
-│   └── confusion_matrix.png
-│
-├── skin_cancer_cnn.ipynb
-└── README.md
-```
+│ ├── class_distribution.png
+│ ├── confusion_matrix.png
+│ └── classification_metrics.png
+
 
 ---
 
-##  Key Insights
+## Future Work
 
-* Deep learning is effective for medical image classification
-* Dataset quality and balance significantly impact performance
-* Evaluation metrics beyond accuracy are essential
-
----
-
-## 🏁 Conclusion
-
-This project demonstrates the application of CNNs for skin cancer classification using the HAM10000 dataset. The model achieved approximately 69% accuracy, showing promising results.
-
-However, class imbalance remains a major limitation and highlights the need for more advanced techniques in real-world applications.
+- Apply focal loss for better imbalance handling  
+- Explore EfficientNet for improved feature representation  
+- Optimize classification thresholds for critical classes  
+- Perform cross-validation for more robust evaluation  
 
 ---
 
-##  Author
+## Author
 
 Mohsin
-
----
-Note: Dataset is not included due to size limitations. Please download from Kaggle link above.
