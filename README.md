@@ -137,9 +137,13 @@ This controlled training setup ensures stable learning and better generalization
 skin-lesion-classification/
 │
 ├── notebook.ipynb
+
 ├── report.pdf
+
 ├── README.md
+
 ├── figures/
+
 │ ├── original_distribution.png
 │ ├── balanced_distribution.png
 │ ├── confusion_matrix.png
